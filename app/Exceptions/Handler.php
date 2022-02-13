@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -46,6 +47,11 @@ class Handler extends ExceptionHandler
         if ($e instanceof AuthenticationException) {
             return response()->error(null, Response::HTTP_UNAUTHORIZED, __('auth.unauthorized'));
         }
+
+        if ($e instanceof ValidationException) {
+            return response()->error($e->errors(), Response::HTTP_BAD_REQUEST);
+        }
+
         return parent::render($request, $e);
     }
 }

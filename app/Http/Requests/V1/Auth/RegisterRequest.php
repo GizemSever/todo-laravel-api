@@ -29,16 +29,8 @@ class RegisterRequest extends FormRequest
         return [
             'name' => 'required|string|min:2',
             'surname' => 'required|string|min:2',
-            'email' =>  'required|email|unique:users',
+            'email' => 'required|email|unique:users',
             'password' => 'required|min:6'
         ];
-    }
-
-    /**
-     * @param Validator $validator
-     */
-    public function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->error($validator->errors(), Response::HTTP_BAD_REQUEST));
     }
 }
