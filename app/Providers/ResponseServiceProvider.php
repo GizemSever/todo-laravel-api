@@ -41,7 +41,7 @@ class ResponseServiceProvider extends ServiceProvider
 
         $responseFactory->macro(
             'error',
-            function (array $errors, int $status, string $message = '', array $headers = []) use ($responseFactory) {
+            function ($errors, int $status, string $message = '', array $headers = []) use ($responseFactory) {
                 $responseBody = [
                     'success' => false,
                     'message' => $message,
