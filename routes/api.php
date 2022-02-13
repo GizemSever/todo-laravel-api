@@ -22,6 +22,7 @@ Route::middleware('localization')->group(function () {
 
         Route::middleware('auth:sanctum')->group(function () {
             Route::get('/user', 'AuthController@user');
+            Route::delete('/logout', 'AuthController@logout');
         });
     });
 });

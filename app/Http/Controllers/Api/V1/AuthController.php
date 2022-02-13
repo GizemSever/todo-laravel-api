@@ -7,6 +7,7 @@ use App\Http\Requests\V1\Auth\LoginRequest;
 use App\Http\Requests\V1\Auth\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
@@ -65,5 +66,11 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         return response()->success(new UserResource($user), Response::HTTP_OK);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        return response()->success(null, Response::HTTP_RESET_CONTENT);
     }
 }
