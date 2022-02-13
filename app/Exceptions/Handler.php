@@ -2,11 +2,13 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -55,6 +57,14 @@ class Handler extends ExceptionHandler
 
         if ($e instanceof ModelNotFoundException) {
             return response()->error(null, Response::HTTP_NOT_FOUND, __('api.resource_not_found'));
+        }
+
+        if ($e instanceof AuthorizationException){
+            return response()->error(null, Response::HTTP_FORBIDDEN);
+        }
+
+        if ($e instanceof ConflictHttpException){
+            return response()->error(null, Response::HTTP_CONFLICT,  $e->getMessage());
         }
 
         return parent::render($request, $e);

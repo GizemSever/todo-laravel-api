@@ -11,9 +11,14 @@ class Project extends Model
     use HasFactory, SoftDeletes;
 
     public $timestamps = true;
-    
+
     protected $fillable = [
         'name',
         'user_id'
     ];
+
+    public function boards()
+    {
+        return $this->hasMany(Board::class);
+    }
 }
