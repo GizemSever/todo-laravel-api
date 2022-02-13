@@ -25,6 +25,7 @@ Route::middleware('localization')->group(function () {
             Route::delete('/logout', 'AuthController@logout');
 
             Route::apiResource('/projects', 'ProjectController');
+            Route::apiResource('projects.boards', 'BoardController')->middleware('can:update,project');
         });
     });
 });
