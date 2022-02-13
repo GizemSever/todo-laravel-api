@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
@@ -50,6 +51,10 @@ class Handler extends ExceptionHandler
 
         if ($e instanceof ValidationException) {
             return response()->error($e->errors(), Response::HTTP_BAD_REQUEST);
+        }
+
+        if ($e instanceof ModelNotFoundException) {
+            return response()->error(null, Response::HTTP_NOT_FOUND, __('api.resource_not_found'));
         }
 
         return parent::render($request, $e);
