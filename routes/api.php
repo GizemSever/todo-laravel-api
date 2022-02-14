@@ -26,6 +26,7 @@ Route::middleware('localization')->group(function () {
 
             Route::apiResource('/projects', 'ProjectController');
             Route::apiResource('projects.boards', 'BoardController')->middleware('can:update,project');
+            Route::apiResource('projects.boards.tasks', 'TaskController')->middleware('can:update,project');
         });
     });
 });

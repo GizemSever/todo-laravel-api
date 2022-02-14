@@ -17,4 +17,9 @@ class Board extends Model
         'project_id',
         'type'
     ];
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }
