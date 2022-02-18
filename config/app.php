@@ -1,5 +1,6 @@
 <?php
 
+use App\Providers\ResponseServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -82,7 +83,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'en-US',
 
     /*
     |--------------------------------------------------------------------------
@@ -95,7 +96,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'en-US',
 
     /*
     |--------------------------------------------------------------------------
@@ -177,6 +178,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        ResponseServiceProvider::class
     ],
 
     /*

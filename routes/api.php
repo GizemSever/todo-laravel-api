@@ -14,6 +14,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('localization')->group(function () {
+    Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
+        // Auth routes
+        Route::post('register', 'AuthController@register');
+        Route::post('login', 'AuthController@login');
+
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::get('/user', 'AuthController@user');
+            Route::delete('/logout', 'AuthController@logout');
+
+            Route::apiResource('/projects', 'ProjectController');
+            Route::apiResource('projects.boards', 'BoardController')->middleware('can:update,project');
+            Route::apiResource('projects.boards.tasks', 'TaskController')->middleware('can:update,project');
+        });
+    });
 });
+
+
+
