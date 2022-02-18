@@ -75,10 +75,11 @@ class TaskController extends Controller
     public function update(Project $project, Board $board, UpdateTaskRequest $request, $id)
     {
         $task = $board->tasks()->findOrFail($id);
+        $toBoard = Board::findOrFail($request->board_id);
         $task->title = $request->title;
         $task->description = $request->description ?? '';
         $task->board_id = $request->board_id;
-        $task->completed_at = $this->getCompletedAt($board);
+        $task->completed_at = $this->getCompletedAt($toBoard);
         $task->save();
 
         return response()->success(new TaskResource($task), Response::HTTP_OK);
