@@ -42,23 +42,10 @@ class TaskController extends Controller
         $task->title = $request->title;
         $task->description = $request->description ?? '';
         $task->board_id = $board->id;
-        $this->setCompletedAt($board, $task);
+        $task->completed_at = $this->getCompletedAt($board);
         $task->save();
 
         return response()->success(new TaskResource($task), Response::HTTP_CREATED);
-    }
-
-    /**
-     * If board type is done, set completed_at value
-     *
-     * @param Board $board
-     * @param Task $task
-     */
-    private function setCompletedAt(Board $board, Task $task)
-    {
-        if ($board->type === BoardType::DONE) {
-            $task->completed_at = Carbon::now();
-        }
     }
 
     /**
@@ -91,10 +78,24 @@ class TaskController extends Controller
         $task->title = $request->title;
         $task->description = $request->description ?? '';
         $task->board_id = $request->board_id;
-        $this->setCompletedAt($board, $task);
+        $task->completed_at = $this->getCompletedAt($board);
         $task->save();
 
         return response()->success(new TaskResource($task), Response::HTTP_OK);
+    }
+
+    /**
+     * If board type is done, set completed_at value
+     *
+     * @param Board $board
+     * @return string|null
+     */
+    private function getCompletedAt(Board $board)
+    {
+        if ($board->type === BoardType::DONE) {
+            return Carbon::now()->toDateTimeString();
+        }
+        return null;
     }
 
     /**
